@@ -1,0 +1,45 @@
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.api.tasks.testing.Test
+
+apply plugin: 'java'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	agent
+}
+
+dependencies {
+	compile 'org.testng:testng:6.11'
+	compile 'org.seleniumhq.selenium:selenium-java:2.53.1'
+	compile 'com.beust:jcommander:1.72'
+	agent "org.aspectj:aspectjweaver:1.8.10"
+	compile "io.qameta.allure:allure-testng:2.0-BETA6"
+	compile 'info.cukes:cucumber-java:1.2.5'
+	compile 'info.cukes:cucumber-testng:1.2.5'
+}
+
+task testCards (type : Test) {
+	useTestNG {
+		suites "src/test/resources/testng.xml"
+	}
+	if (project.hasProperty("browser")) {
+		systemProperty 'browser', "${browser}"
+	}
+	if (project.hasProperty("target")) {
+		systemProperty 'target', "${target}"
+	}
+
+	systemProperty 'allure.results.directory', 'build/allure-results'
+	systemProperty 'allure.link.issue.pattern', 'https://github.com/allure-framework/allure-docs/issues/{}'
+	systemProperty 'allure.link.tms.pattern', 'https://github.com/allure-framework/allure-docs/issues/{}'
+}
+
+testCards.doFirst {
+	jvmArgs "-javaagent:${configurations.agent.singleFile}"
+}
