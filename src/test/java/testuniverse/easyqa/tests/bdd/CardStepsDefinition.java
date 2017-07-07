@@ -6,6 +6,7 @@ import cucumber.api.java.ru.Дано;
 import cucumber.api.java.ru.Если;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
+import io.qameta.allure.Step;
 import org.openqa.selenium.remote.BrowserType;
 import testuniverse.easyqa.tests.appManager.ApplicationManager;
 import testuniverse.easyqa.tests.objectModels.CardData;
@@ -19,6 +20,7 @@ public class CardStepsDefinition {
 
     private ApplicationManager app;
     public CardData cardData;
+
     @Before
     public  void init() throws IOException {
         app = new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
@@ -31,29 +33,28 @@ public class CardStepsDefinition {
         app = null;
     }
 
-    @Если("^нажать на список проектов$")
+    @Step @Если("^нажать на список проектов$")
     public void gotoProjectList (){
         app.getNavHelper().gotoProjectsList();
     }
 
-    @И("^нажать на название проекта$")
+    @Step @И("^нажать на название проекта$")
     public void selectProject (){
         app.getNavHelper().selectProject();
     }
 
-    @И("^нажать на Баг Трекер$")
+    @Step @И("^нажать на Баг Трекер$")
     public void gotoBugTracker (){
         app.getNavHelper().gotoBugTracker();
-
     }
 
-    @И("^создать карточку с названием (.+) и описанием (.+)$")
+    @Step @И("^создать карточку с названием (.+) и описанием (.+)$")
     public void createCardOnTracker (String cardName,String cardDescription){
         cardData = new CardData (cardName, cardDescription);
         app.getCardHelper().createCardOnTracker(cardData);
     }
 
-    @То("^на странице видна карточка с названием (.+)$")
+    @Step @То("^на странице видна карточка с названием (.+)$")
     public void verifyCardCreated (String cardName){
         assert (app.getCardHelper().verifyCardCreated(cardData.getCardName()));;
     }
