@@ -6,4 +6,9 @@
             <class name="testuniverse.easyqa.tests.tests.CardCreationTests" />
         </classes>
     </test>
+    <test name="Cards2" >
+    <classes>
+        <class name="testuniverse.easyqa.tests.bdd.CardTests" />
+    </classes>
+    </test>
 </suite>
