@@ -8,10 +8,12 @@ import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
 import io.qameta.allure.Step;
 import org.openqa.selenium.remote.BrowserType;
+import org.testng.Assert;
 import testuniverse.easyqa.tests.appManager.ApplicationManager;
 import testuniverse.easyqa.tests.objectModels.CardData;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Любовь on 07.07.2017.
@@ -56,7 +58,8 @@ public class CardStepsDefinition {
 
     @Step @То("^на странице видна карточка с названием (.+)$")
     public void verifyCardCreated (String cardName){
-        assert (app.getCardHelper().verifyCardCreated(cardData.getCardName()));;
+        boolean hasCard=app.getCardHelper().verifyCardCreated(cardData.getCardName());
+        Assert.assertEquals(hasCard,true);
     }
 
 }

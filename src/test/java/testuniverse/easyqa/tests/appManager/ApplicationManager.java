@@ -25,7 +25,7 @@ public class ApplicationManager {
     private NavHelper navHelper;
     private CardHelper cardHelper;
 
-    WebDriver rd;
+    public WebDriver rd;
     ChromeOptions co;
     FirefoxProfile fp;
 
